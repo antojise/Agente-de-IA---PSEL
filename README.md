@@ -29,7 +29,7 @@ Para executar este fluxo em seu proprio ambiente n8n, sera necessario possuir:
 2. Acesse a interface da sua instancia do n8n.
 3. No menu lateral esquerdo, va em "Workflows" e clique em "Add Workflow".
 4. No canto superior direito, clique no menu de opcoes (tres pontos) e selecione "Import from File".
-5. Selecione o arquivo `Processo seletivo 2(4)(1).json` fornecido neste repositorio.
+5. Selecione o arquivo `chatbot-jetsales-antonio.json` fornecido neste repositorio.
 6. Apos a importacao, configure as credenciais pendentes nos nos marcados:
    * **Redis account:** Insira os dados de host, porta e senha do seu servidor Redis.
    * **Google Gemini API:** Insira a sua chave de API gerada no Google AI Studio.
