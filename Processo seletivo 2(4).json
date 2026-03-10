@@ -1,0 +1,1417 @@
+{
+  "name": "Processo seletivo 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jetsales-chatbot",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "472fd081-8fff-4908-a883-7e2bd59600ba",
+      "name": "Webhook",
+      "webhookId": "0417c974-4d70-4deb-acc9-9eb580489901"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "48617708-01c1-4511-b3c9-50fc37782fa1",
+              "name": "Número",
+              "value": "={{ $json.body.message.ticket.contact.number }}",
+              "type": "string"
+            },
+            {
+              "id": "4d6fb5d0-8f6e-4121-9e46-9c7962dbfb12",
+              "name": "tipo -mensagem",
+              "value": "={{ $json.body.message.mediaType }}",
+              "type": "string"
+            },
+            {
+              "id": "b439c3cd-19d3-465f-90d3-b18520773a70",
+              "name": "body.message.contactId",
+              "value": "={{ $json.body.message.isTransfer }}",
+              "type": "boolean"
+            },
+            {
+              "id": "b7774150-39c8-413d-aa2e-0e671bdb7a8c",
+              "name": "Nome",
+              "value": "={{ $json.body.message.raw.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "278d6db0-ae9b-4306-b2b9-9528679517f9",
+              "name": "token",
+              "value": "={{ $json.body.config.token }}",
+              "type": "string"
+            },
+            {
+              "id": "4a70b8ec-b165-44cd-b322-83f65b65af71",
+              "name": "idmensagem",
+              "value": "={{ $json.body.message.messageId }}",
+              "type": "string"
+            },
+            {
+              "id": "33886c30-651f-4a1a-ae4d-ed56f4ca296e",
+              "name": "userid",
+              "value": "={{ $json.body.message.userId }}",
+              "type": "string"
+            },
+            {
+              "id": "e35679bc-7069-472f-9a61-13b49b34e0f7",
+              "name": "meessage-json",
+              "value": "={{ $json.body.message.toJsonString() }}",
+              "type": "string"
+            },
+            {
+              "id": "f457f753-6bb7-4a5f-a774-e4d2bde86160",
+              "name": "Mensagem",
+              "value": "={{ $json.body.message.body }}",
+              "type": "string"
+            },
+            {
+              "id": "cd492e94-e99a-43a6-8c62-6db7a8b88745",
+              "name": "media-url-img",
+              "value": "={{ $json.body.message.mediaUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "3a7b4eae-e6fd-4363-ba6e-4b708a4dd41c",
+              "name": "media-name",
+              "value": "={{ $json.body.message.mediaName }}",
+              "type": "string"
+            },
+            {
+              "id": "ed6f21de-1719-45e2-9344-c2736444366e",
+              "name": "media-url-audio",
+              "value": "={{ $json.body.message.mediaUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a990eb-2fe7-4af4-ad2a-94bcfd7e1d5f",
+              "name": "validação-frome",
+              "value": "={{ $json.body.message.fromMe }}",
+              "type": "boolean"
+            },
+            {
+              "id": "9b7a9585-23a5-4964-a904-5c9d69580085",
+              "name": "ID_contato",
+              "value": "={{ $json.body.message.contactId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        96
+      ],
+      "id": "ec278720-a835-47eb-9cdc-5861bac2bb3d",
+      "name": "Dados-filtrados"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d10f888-c15f-4367-ac6b-cf8df237156a",
+              "leftValue": "={{ $json.idmensagem }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        96
+      ],
+      "id": "5843180f-7e42-4066-8db2-1b6e8a79dfe8",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        192
+      ],
+      "id": "5e3b3656-e998-4e7a-9be7-05c4138b93b1",
+      "name": "Mensagem duplicada"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "idmensagem",
+        "key": "={{ $json.idmensagem }}",
+        "keyType": "string",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        688,
+        96
+      ],
+      "id": "7181d155-b2e0-423b-95d5-17566ac18932",
+      "name": "Verificação",
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Dados-filtrados').item.json['meessage-json'] }}",
+        "value": "{{ $('Dados-filtrados').item.json.Mensagem }}",
+        "keyType": "string",
+        "expire": true,
+        "ttl": 180
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        0
+      ],
+      "id": "7ed21ef3-ee94-4a47-975c-5b458be4b278",
+      "name": "Controle-duplicatas-TXT1",
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "Resumo curto da imagem. Responda sem acento, sem hifens, inclua na descrição o contexto da seguinte forma \"usuário enviou uma imagem :Homem lendo livro com cafe e oculos.\"",
+        "imageUrls": "={{ $('Dados-filtrados').item.json['media-url-img'] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        192
+      ],
+      "id": "83447fe5-95d6-4bd3-860f-4aa83b36040d",
+      "name": "Analyze image",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Dsicl4bdYdP7xaXq",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados-filtrados').item.json.ID_contato }}",
+        "messageData": "={{ $('Dados-filtrados').item.json.Mensagem }}",
+        "tail": true
+      },
+      "id": "ff18ac26-d86c-4ec8-8a62-d47a95a46c15",
+      "name": "Push",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        -192
+      ],
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados-filtrados').item.json.ID_contato }}",
+        "messageData": "={{ $json.content.parts[0].text }}",
+        "tail": true
+      },
+      "id": "1c3971cf-ca18-400a-bc4c-4877e5dc53b3",
+      "name": "Push1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        0
+      ],
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados-filtrados').item.json.ID_contato }}",
+        "messageData": "={{ $json.content.parts[0].text }}",
+        "tail": true
+      },
+      "id": "05b6741d-3c96-489f-baf3-ce2c1e6a354f",
+      "name": "Push2",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        192
+      ],
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash"
+        },
+        "text": "Resumo curto do audio. Responda sem acento, sem hifens, inclua na descrição o contexto da seguinte forma \"usuário enviou um audio: Olá bom dia queria saber um pouco mais sobre sua empresa.\" \n\nCaso o audio não tenha a voz de ninguém falando, apenas barulhos, informe \"usuario envinou um audio: Audio sem conteúdo falado\"",
+        "audioUrls": "={{ $('Dados-filtrados').item.json['media-url-audio'] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        0
+      ],
+      "id": "4ec87bee-c4ab-437c-8a54-343b826f3112",
+      "name": "Analyze audio",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Dsicl4bdYdP7xaXq",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "e514e613-fd6a-48bd-b0ae-bae2448c810e",
+                    "leftValue": "={{ $('Dados-filtrados').item.json['tipo -mensagem'] }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Dados-filtrados').item.json['tipo -mensagem'] }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9cafce27-14ac-4dfa-a714-447df951dd05"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "c0e434dd-1268-421d-b81b-3a5e90ed9550",
+                    "leftValue": "={{ $('Dados-filtrados').item.json['tipo -mensagem'] }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f0580000-db42-4784-b71c-2ba79296fb85",
+      "name": "Tipo-mensagem",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1360,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d5a342e9-585b-42ea-be44-644adae10199",
+              "leftValue": "={{ $json.Redis2 }}",
+              "rightValue": "={{ $json.Redis1 }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1fb94ef9-670d-4b7f-9767-c4bcd383b7b0",
+      "name": "Compara Get Memory1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2800,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "id": "e38ee8fa-8f94-4cf8-b501-68d7327bcaa9",
+      "name": "Wait3",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2256,
+        0
+      ],
+      "webhookId": "7508fa49-bc87-45fc-bc55-e92f0d00664a"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "ID_contato",
+        "key": "={{ $('Dados-filtrados').item.json.ID_contato }}",
+        "options": {}
+      },
+      "id": "48af60e8-eb80-459c-9707-3df0ad6c2552",
+      "name": "Get Memory 1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2032,
+        0
+      ],
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "ID_contato",
+        "key": "={{ $('Dados-filtrados').item.json.ID_contato }}",
+        "options": {}
+      },
+      "id": "8a42db8e-6080-47a5-bec3-ff52911b979e",
+      "name": "Get Memory",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        0
+      ],
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f336a1ff-e577-489d-a739-1eb8bd509245",
+              "name": "Redis2",
+              "value": "={{ $json.ID_contato }}",
+              "type": "string"
+            },
+            {
+              "id": "946d1420-e379-46e3-8fcd-3816340fbabb",
+              "name": "Redis1",
+              "value": "={{ $('Get Memory 1').item.json.ID_contato }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "297cb699-f3c7-4e7a-86e5-29c9c5358e2e",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2640,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $now }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        3344,
+        -128
+      ],
+      "id": "a961794f-0688-4b65-ae3d-a83714064990",
+      "name": "Date & Time1"
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n    // 1. Recupera os dados brutos validados pelo nó anterior\n    const rawData = $item(0).$node[\"Compara Get Memory1\"].json[\"Redis2\"];\n\n    // 2. Valida e converte para Array (faz o parse caso o Redis tenha retornado uma string JSON)\n    const mensagensArray = Array.isArray(rawData) ? rawData : JSON.parse(rawData);\n\n    // 3. Concatena os elementos do array separando-os por um espaço\n    const mensagem_completa = mensagensArray.join(\" \");\n\n    // 4. Retorna a estrutura JSON padronizada para o n8n\n    return [{ \n        json: { \n            mensagem_completa: mensagem_completa \n        } \n    }];\n\n} catch (error) {\n    // 5. Tratamento de erro: evita que o fluxo quebre caso os dados sejam inválidos\n    return [{ \n        json: { \n            mensagem_completa: \"\",\n            log_erro: \"Falha ao processar dados do Redis: \" + error.message \n        } \n    }];\n}"
+      },
+      "id": "10a59ecb-aeb9-4b9c-a4b8-e4d27d9bde10",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2976,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Dados-filtrados').item.json.ID_contato }}"
+      },
+      "id": "6b2b441a-492c-4f69-8b10-a113d118d53e",
+      "name": "Apagar-historico",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2976,
+        -160
+      ],
+      "credentials": {
+        "redis": {
+          "id": "K8JDvwWHyX2kXSy8",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Code').item.json.mensagem_completa }}",
+        "options": {
+          "systemMessage": "={\n  \"Contexto\": {\n    \"DataAtual\": \"{{ $now.weekdayLong }}, {{ $now.format('dd/MM/yyyy') }}, {{ $now.hour.toString().padStart(2, '0') }}:{{ $now.minute.toString().padStart(2, '0') }}\"\n  },\n  \"PerfilDoAgente\": {\n    \"Nome\": \"Jorge\",\n    \"Empresa\": \"Ângulos Estratégia e Imagem\",\n    \"Personalidade\": \"Aja como um especialista em marketing comunicativo, amigável e acolhedor. Seu tom deve ser informal, mas sempre profissional e educado. Seja proativo, demonstre empatia pelas dores do cliente e foque em entender as necessidades dele para oferecer a melhor solução. Use emojis de forma natural.\",\n    \"ObjetivoPrincipal\": \"Realizar prospecção ativa e qualificada via WhatsApp. Seu objetivo final é agendar uma reunião estratégica de 20 a 30 minutos com um especialista da Ângulos.\"\n  },\n  \"FasesDoAtendimento\": [\n    {\n      \"Fase\": 1,\n      \"Objetivo\": \"Abertura, Conexão e Regras\",\n      \"Diretrizes\": [\n        \"Sempre responda a saudações (como 'Oi', 'Tudo bem?', 'Bom dia') de forma natural e amigável.\",\n        \"Apresente-se como Jorge da Ângulos e informe: 'Se a qualquer momento você precisar de um suporte mais específico, é só digitar *Falar com humano* e eu chamo nossa equipe!'.\",\n        \"Crie conexão mencionando brevemente o case da Sorrifácil (aumento de 30% no número de pacientes para 15 unidades) como exemplo prático.\",\n        \"Finalize a primeira mensagem com uma pergunta aberta focada na dor do cliente, como: 'Qual é o maior desafio de vocês hoje para vender mais através do digital?'\"\n      ]\n    },\n    {\n      \"Fase\": 2,\n      \"Objetivo\": \"Diagnóstico e Qualificação\",\n      \"Diretrizes\": [\n        \"Conduza a conversa para entender o cenário do cliente em formato de diálogo leve, não um interrogatório.\",\n        \"Investigue objetivos (ex: visibilidade, vendas) e sonde se buscam soluções pontuais ou acompanhamento contínuo.\"\n      ]\n    },\n    {\n      \"Fase\": 3,\n      \"Objetivo\": \"Apresentação de Soluções\",\n      \"Diretrizes\": [\n        \"Conecte as dores identificadas com os serviços da Ângulos (produção de vídeos, tráfego pago ou identidade visual).\",\n        \"Gere valor focando na resolução do problema, sem apresentar preços financeiros.\"\n      ]\n    }\n  ],\n  \"RegrasDeOuro\": [\n    \"Uso Restrito da Ferramenta: NUNCA use a ferramenta 'Notificar-atendente-humano' para saudações ou dúvidas simples. USE-A EXCLUSIVAMENTE se o usuário pedir explicitamente frases como 'Falar com humano', 'Quero um atendente' ou 'Falar com suporte'.\",\n    \"Pós-Acionamento: SE (e somente se) você usar a ferramenta 'Notificar-atendente-humano', responda: 'Pronto! Já avisei nossa equipe e um especialista humano vai assumir essa conversa em instantes. Um abraço!'\",\n    \"Escopo: Não invente informações, portfólios ou preços. Mantenha a conversa focada em marketing e agendamento de reuniões.\",\n    \"Interpretação de Mídia: Se o texto recebido começar com 'usuario enviou um áudio:' ou 'usuario enviou uma imagem:', considere o texto a seguir como a descrição da mídia recebida para manter o contexto.\"\n  ]\n}"
+        }
+      },
+      "id": "9ec79f52-9ae0-4b02-a448-13175689e84f",
+      "name": "agente",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        3568,
+        -128
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ee3434ed-e8c2-4182-a653-70217cb9a916",
+              "name": "output",
+              "value": "={{ $json.output.split('\\n\\n') }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3920,
+        -128
+      ],
+      "id": "7a81e48c-8622-4657-a22a-854bd631308d",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        4144,
+        -128
+      ],
+      "id": "13fee614-1fbf-49f9-b1e6-ec29b0fbcb8f",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        4544,
+        -160
+      ],
+      "id": "1dcee010-2ec9-421c-b704-2355a8f0eaa4",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://chatapi.jetsalesbrasil.com/v1/api/external/5a31844b-86c3-4b1c-8b4d-5da977aaf04a/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6MTA1LCJwcm9maWxlIjoiYWRtaW4iLCJzZXNzaW9uSWQiOjI0MCwiY2hhbm5lbFR5cGUiOiJ3aGF0c2FwcCIsImlhdCI6MTc3MjkzMTg0OCwiZXhwIjoxODM2MDAzODQ4fQ.Q_wjC49ULB98pn4-SIJS0n5PmrXX4su8JCQ1cT198Rc",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=bearer {{ $('Dados-filtrados').item.json.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "body",
+              "value": "={{ $json.output }}"
+            },
+            {
+              "name": "number",
+              "value": "={{ $('Dados-filtrados').item.json['Número'] }}"
+            },
+            {
+              "name": "externalKey",
+              "value": "““"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4768,
+        -240
+      ],
+      "id": "a596dc62-aa7e-444c-8c18-864fba97245b",
+      "name": "Enviar-mensagem"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4992,
+        -160
+      ],
+      "id": "2ed21d4e-4865-402c-8365-77be1b7b0e5d",
+      "name": "Aguarde",
+      "webhookId": "1521418e-ee72-45ec-bb29-398695747a74"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Dados-filtrados').item.json.ID_contato }}",
+        "contextWindowLength": 7
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        3664,
+        256
+      ],
+      "id": "b94b1986-f22b-4895-821a-50221f596a4a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "## Validações e Filtros de Segurança\n         \n      ",
+        "height": 736,
+        "width": 1360,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -288
+      ],
+      "id": "092d0beb-3dc1-4089-94db-391dc0e5250d",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Gatilho de Entrada \n\n         \n      ",
+        "height": 736,
+        "width": 176,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -288
+      ],
+      "id": "06797db9-ca62-4351-b1d4-4ec0064d0e6a",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Interpretação de Mídia (Multimodal)\n             ",
+        "height": 736,
+        "width": 672,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        -288
+      ],
+      "id": "4340ef97-41a8-4229-abea-06b7683c2c40",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Ferramentas",
+        "height": 352,
+        "width": 1024,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3264,
+        80
+      ],
+      "id": "ac85d2cb-55e4-4a47-89cb-d3fdd5c955e0",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Agente IA",
+        "height": 336,
+        "width": 1024,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3264,
+        -288
+      ],
+      "id": "bc733160-6496-4139-87e8-bd7d5a0a3f72",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Utilize para redirecionar o atendimento para um humano (atendente) assumir o controle do atendimento.",
+        "method": "POST",
+        "url": "https://chatapi.jetsalesbrasil.com/v1/api/external/019460e4-11bc-496a-9af2-237a9218e743",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=bearer {{ $('Dados-filtrados').item.json.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "body",
+              "value": "=Olá Antônio, um possível cliente está precisando do seu auxilio quando puder entre em contato com ele Numero:  {{ $('Dados-filtrados').item.json['Número'] }}"
+            },
+            {
+              "name": "number",
+              "value": "5579999595465"
+            },
+            {
+              "name": "externalKey",
+              "value": "(“ “)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        3840,
+        240
+      ],
+      "id": "92b1b193-d27e-4a00-8403-40023e520154",
+      "name": "Notificar-atendente-humano"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        3536,
+        256
+      ],
+      "id": "b8e32a19-5350-4b14-b82f-e29166b45b56",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "sENu8AqGRigS34gH",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Gatilho de Entrada (Webhook)\nResponsável por receber os dados em tempo real da plataforma JetSales.\n\n* **Webhook:** Escuta o endpoint configurado.\n* **Dados-filtrados (Set):** Limpa o JSON recebido e cria variáveis fáceis de ler (Número, Nome, Mensagem, Tipo).",
+        "height": 240,
+        "width": 704,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        -64
+      ],
+      "id": "984f3bbc-232e-4944-a6a6-597a9b614e19",
+      "name": "Sticky Gatilho"
+    },
+    {
+      "parameters": {
+        "content": "## Validações e Filtros de Segurança\nGarante que a IA processe apenas as mensagens corretas e evite loops.\n\n* **minha-mensagem (If):** Verifica o parâmetro `fromMe`. Se for TRUE, o fluxo é encerrado para a IA não responder a si mesma.\n* **Controle de Duplicatas (Redis + If):** Verifica pelo `idmensagem` se esta requisição já foi processada recentemente, evitando envios duplicados.",
+        "height": 240,
+        "width": 1360,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -544
+      ],
+      "id": "98def337-2f9b-4925-b32c-d103d518a09c",
+      "name": "Sticky Validacoes"
+    },
+    {
+      "parameters": {
+        "content": "## Interpretação de Mídia (Multimodal)\nSepara o fluxo baseando-se no tipo da mensagem (Texto, Áudio ou Imagem).\n\n* Caso o usuário envie **Áudio ou Imagem**, os modelos do Google Gemini realizam a transcrição/visão computacional e devolvem o contexto em texto para o agente principal.\n* O nó **Push (Redis)** enfileira essas mensagens traduzidas.",
+        "height": 240,
+        "width": 672,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        -544
+      ],
+      "id": "087e1d47-9e72-421e-aade-ce2c9a80b139",
+      "name": "Sticky Midia"
+    },
+    {
+      "parameters": {
+        "content": "## Debounce e Buffer de Mensagens\nEvita que a IA responda picado caso o usuário envie várias mensagens seguidas.\n\n* **Wait:** Aguarda alguns segundos para agrupar todas as requisições.\n* **Get Memory & Code:** Busca a lista de mensagens no Redis, agrupa em um único bloco de texto e apaga o histórico temporário da fila.",
+        "height": 240,
+        "width": 1024,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        -544
+      ],
+      "id": "bd2a0ec2-13a1-4201-a5ee-1b4a8337dd29",
+      "name": "Sticky Buffer"
+    },
+    {
+      "parameters": {
+        "content": "## Agente IA & Ferramentas\nO núcleo inteligente que processa o contexto e toma decisões.\n\n* **Agente (LangChain):** Operado pelo Gemini Flash, segue a persona \"Jorge do Marketing\" e as diretrizes de prospecção.\n* **Simple Memory:** Mantém a janela de contexto da conversa.\n* **Tools (Ferramentas):** Capaz de acionar o Webhook externo de `Notificar-atendente-humano` quando o usuário solicita atendimento real, cumprindo a exigência de escalonamento.",
+        "height": 240,
+        "width": 1024,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3264,
+        -544
+      ],
+      "id": "cd5acded-f12e-49ba-b94a-d5caffd0e3fb",
+      "name": "Sticky Agente"
+    },
+    {
+      "parameters": {
+        "content": "## Envio de Resposta\nDevolve a mensagem processada para a plataforma da JetSales.\n\n* O Loop processa a saída caso a IA gere múltiplas quebras de linha.\n* **Envio de Mensagem (HTTP Request):** Faz um POST autenticado via Bearer Token para a API Externa da JetSales, enviando o `body` gerado para o número do cliente.",
+        "height": 240,
+        "width": 1024
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4304,
+        -544
+      ],
+      "id": "ecc5f252-903f-4565-847b-cc1d80e2107b",
+      "name": "Sticky Envio"
+    },
+    {
+      "parameters": {
+        "content": "## Debounce e Buffer de Mensagens\n             ",
+        "height": 736,
+        "width": 1024,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        -288
+      ],
+      "id": "62961a86-a392-46da-9aa8-dc37eabd0a3f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Agente IA",
+        "height": 336,
+        "width": 1024
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4304,
+        -288
+      ],
+      "id": "45082a83-7345-4e6e-a053-b60097d685d6",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8b02580a-bae5-4a06-8ee7-2f833f947c42",
+              "leftValue": "={{ $json.body.message.fromMe }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        0
+      ],
+      "id": "5b031e26-4e8f-4a32-bdbc-e4d504fa4447",
+      "name": "minha-mensagem"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        464,
+        -96
+      ],
+      "id": "9dc7a06a-4711-49a0-a18c-a9f2704e32b3",
+      "name": "minha-mensagem2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "minha-mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Controle-duplicatas-TXT1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensagem duplicada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificação": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados-filtrados": {
+      "main": [
+        [
+          {
+            "node": "Verificação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Push2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze audio": {
+      "main": [
+        [
+          {
+            "node": "Push1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tipo-mensagem": {
+      "main": [
+        [
+          {
+            "node": "Push",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Controle-duplicatas-TXT1": {
+      "main": [
+        [
+          {
+            "node": "Tipo-mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Get Memory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Memory 1": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Memory": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Push2": {
+      "main": [
+        [
+          {
+            "node": "Get Memory 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Push1": {
+      "main": [
+        [
+          {
+            "node": "Get Memory 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Push": {
+      "main": [
+        [
+          {
+            "node": "Get Memory 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Compara Get Memory1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Apagar-historico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apagar-historico": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compara Get Memory1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "agente": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Enviar-mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar-mensagem": {
+      "main": [
+        [
+          {
+            "node": "Aguarde",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aguarde": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "agente",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar-atendente-humano": {
+      "ai_tool": [
+        [
+          {
+            "node": "agente",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "agente",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "minha-mensagem": {
+      "main": [
+        [
+          {
+            "node": "minha-mensagem2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dados-filtrados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "079b6f53-2ad1-45a8-9ef2-cc139a1b694a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "36a0a5bcd459dde14bf45463a2786f6977ec37ce85fe75a8f71779b9b4643120"
+  },
+  "id": "oGAgt9UK1UhM52cW",
+  "tags": [
+    {
+      "updatedAt": "2026-03-09T16:05:39.796Z",
+      "createdAt": "2026-03-09T16:05:39.796Z",
+      "id": "JDwOZuzaujSw3kl0",
+      "name": "antonio"
+    }
+  ]
+}
