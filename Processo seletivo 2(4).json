@@ -665,7 +665,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://chatapi.jetsalesbrasil.com/v1/api/external/5a31844b-86c3-4b1c-8b4d-5da977aaf04a/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6MTA1LCJwcm9maWxlIjoiYWRtaW4iLCJzZXNzaW9uSWQiOjI0MCwiY2hhbm5lbFR5cGUiOiJ3aGF0c2FwcCIsImlhdCI6MTc3MjkzMTg0OCwiZXhwIjoxODM2MDAzODQ4fQ.Q_wjC49ULB98pn4-SIJS0n5PmrXX4su8JCQ1cT198Rc",
+        "url": "https://chatapi.jetsalesbrasil.com/v1/api/external/5a31844b-86c3-4b1c-8b4d-5da977aaf04a/",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -835,7 +835,7 @@
             },
             {
               "name": "number",
-              "value": "5579999595465"
+              "value": "5511999999999"
             },
             {
               "name": "externalKey",
